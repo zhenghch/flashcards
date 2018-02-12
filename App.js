@@ -1,13 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, StatusBar, TouchableOpacity, FlatList } from 'react-native';
+import { View, StatusBar, TouchableOpacity, FlatList, AsyncStorage } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 
+import { createStore, combineReducers } from 'redux';
+import { Provider } from 'react-redux';
+
+import * as reducers from './reducers';
+
 import DeckList from './components/DeckList';
-import AddNewDeck from './components/AddNewDeck';
+import AddDeck from './components/AddDeck';
 import DeckOp from './components/DeckOp';
 import AddCard from './components/AddCard';
 import Quiz from './components/Quiz';
+
+import { setLocalNotification } from './utils/helper';
 
 // from udacifitness
 function UdaciStatusBar ({backgroundColor, ...props}) {
@@ -23,7 +30,7 @@ const Tabs = TabNavigator({
     screen: DeckList
   },
   AddNewDeck: {
-    screen: AddNewDeck
+    screen: AddDeck
   }
 });
 
@@ -42,13 +49,21 @@ const MainNavigator = StackNavigator({
   }
 });
 
+const store = createStore(combineReducers(reducers), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 export default class App extends React.Component {
+  componentDidMount(){
+    setLocalNotification();
+  }
+
   render() {
     return (
-      <View style={{flex: 1}}>
-        <UdaciStatusBar backgroundColor={'#292477'} barStyle="light-content" />
-        <MainNavigator />
-      </View>
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <UdaciStatusBar backgroundColor={'#292477'} barStyle="light-content" />
+          <MainNavigator />
+        </View>
+      </Provider>
     );
   }
 }

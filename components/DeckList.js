@@ -1,41 +1,46 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, FlatList } from 'react-native';
 
+import { connect } from 'react-redux';
+
+import Actions from '../actions';
 import DeckOverview from './DeckOverview';
-
-// static content
-const DECK_STATIC = {
-  udacicards: {title: 'udacicards', numCards: 13},
-  'newDeck': {title: 'new deck', numCards: 0},
-  'newDeck2': {title: 'new deck 2', numCards: 2}
-};
-
+import * as CardsAPI from '../utils/api';
+import { NOTIFICATION_KEY } from '../utils/helper';
 //
 class DeckList extends Component {
-  renderItem = ({item}) => (
-    <View>
-      <TouchableOpacity
-        onPress={() => this.props.navigation.navigate(
-          'DeckOp',
-          { item: item }
-        )}>
-        <DeckOverview item={item}/>
-      </TouchableOpacity>
-    </View>
-  );
+  componentDidMount(){
+    CardsAPI.getDecks().then(dat=> this.props.dispatch(Actions.setDecks(dat)));
+  }
+
+  renderItem = ({item}) => {
+    return (
+      <View >
+        <TouchableOpacity
+          onPress={() => this.props.navigation.navigate(
+            'DeckOp',
+            { deckId: item.key }
+          )}>
+          <DeckOverview deckId={item.key}/>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   render(){
-    const decks = Object.keys(DECK_STATIC).map(key => ({...DECK_STATIC[key], key, id: key}));
+    const {decks} = this.props;
+    const deckList = Object.keys(decks).sort().map(key => ({...decks[key], key}));
 
     return (
-      <View style={{flex: 1, justifyContent: 'space-between'}}>
+      <View style={{flex:1}}>
         <FlatList
-          data={decks}
+          data={deckList}
           renderItem={this.renderItem}
+          contentContainerStyle={{flex: 1, justifyContent: 'flex-start'}}
           />
       </View>
     );
   }
 }
 
-export default DeckList;
+export default connect(({decks}) => ({decks}))(DeckList);

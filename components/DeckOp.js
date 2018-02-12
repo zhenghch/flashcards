@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+
 import DeckOverview from './DeckOverview';
 
 class DeckOp extends Component {
   render(){
-    const { item } = this.props.navigation.state.params;
+    const { deckId } = this.props.navigation.state.params;
 
     return(
       <View style={{flex: 1}}>
-        <DeckOverview item={item}/>
+        <DeckOverview deckId={deckId}/>
 
-        <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddCard')}>
+        <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddCard', {deckId})}>
           <Text>
             Add card
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Quiz')}>
+        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Quiz', {deckId})}>
           <Text>
             Start Quiz
           </Text>
@@ -27,4 +29,5 @@ class DeckOp extends Component {
   }
 };
 
+DeckOp = connect(({decks})=>({decks}))(DeckOp);
 export default DeckOp;
