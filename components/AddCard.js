@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 import Actions from '../actions';
 import * as CardsAPI from '../utils/api';
@@ -35,6 +36,9 @@ class AddCard extends Component{
       question:'',
       answer: ''
     });
+
+    // goback to deck
+    this.props.navigation.dispatch(NavigationActions.back());
   }
 
   render(){

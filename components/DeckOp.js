@@ -5,6 +5,14 @@ import { connect } from 'react-redux';
 import DeckOverview from './DeckOverview';
 
 class DeckOp extends Component {
+  static navigationOptions = ( { navigation }) => {
+    const { deckId } = navigation.state.params;
+
+    return {
+      title: deckId
+    };
+  }
+
   render(){
     const { deckId } = this.props.navigation.state.params;
 

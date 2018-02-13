@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StatusBar, TouchableOpacity, FlatList, AsyncStorage } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 import { Constants } from 'expo';
+import { FontAwesome, Ionicons, Foundation } from '@expo/vector-icons';
 
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
@@ -27,25 +28,65 @@ function UdaciStatusBar ({backgroundColor, ...props}) {
 
 const Tabs = TabNavigator({
   DeckList: {
-    screen: DeckList
+    screen: DeckList,
+    navigationOptions: {
+      tabBarLabel: 'Decks',
+      tabBarIcon: ({tintColor}) => <FontAwesome name='home' size={30} color={tintColor}/>
+    }
   },
-  AddNewDeck: {
-    screen: AddDeck
+  AddDeck: {
+    screen: AddDeck,
+    navigationOptions: {
+      tabBarLabel: 'Add deck',
+      tabBarIcon: ({tintColor}) => <Foundation name='folder-add' size={30} color={tintColor}/>
+    }
+  }
+}, {
+  tabBarOptions: {
+    activeTintColor: 'green',
+    style: {
+      height: 56,
+      backgroundColor: 'white',
+      shadowColor: 'rgba(0,0,0,0.24)',
+      shadowOffset: {
+        width: 0,
+        height: 3
+      },
+      shadowRadius: 6,
+      shadowOpacity: 1
+    }
   }
 });
 
 const MainNavigator = StackNavigator({
   Home: {
-    screen: Tabs
+    screen: Tabs,
+    navigationOptions: {
+      header: null
+    }
   },
   DeckOp:{
     screen: DeckOp
   },
   AddCard: {
-    screen: AddCard
+    screen: AddCard,
+    navigationOptions:{
+      title: 'Add card'
+    }
+
   },
   Quiz: {
-    screen: Quiz
+    screen: Quiz,
+    navigationOptions:{
+      title: 'Quiz'
+    }
+  }
+}, {
+  navigationOptions: {
+    headerTintColor: 'white',
+    headerStyle:{
+      backgroundColor: 'black'
+    }
   }
 });
 
@@ -61,7 +102,7 @@ export default class App extends React.Component {
       <Provider store={store}>
         <View style={{flex: 1}}>
           <UdaciStatusBar backgroundColor={'#292477'} barStyle="light-content" />
-          <MainNavigator />
+          <MainNavigator style={{flex:1}}/>
         </View>
       </Provider>
     );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 
 import Actions from '../actions';
 import * as CardsAPI from '../utils/api';
@@ -34,6 +35,8 @@ class AddDeck extends React.Component{
     this.setState({
       value: ''
     });
+
+    this.props.navigation.dispatch(NavigationActions.back());
   }
 
 
