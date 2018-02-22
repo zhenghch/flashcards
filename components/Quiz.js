@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import CardView from '../components/CardView';
@@ -10,6 +10,11 @@ import { NOTIFICATION_KEY } from '../utils/helper';
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
+}
+
+function precisionRound(number, precision) {
+  var factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
 }
 
 
@@ -57,8 +62,8 @@ class Quiz extends Component{
 
     if (deck.questions.length <= index){ // finish quiz
       return (
-        <View>
-          <Text>{correct}/{total}</Text>
+        <View style={styles.container}>
+          <Text style={styles.header}>Quiz result: {precisionRound(correct/total*100, 1)}% ({correct}/{total})</Text>
         </View>
       );
     }
@@ -66,17 +71,24 @@ class Quiz extends Component{
     const ansInd = getRandomInt(deck.questions.length);
 
     return (
-      <View style={{flex:1, justifyContent: 'space-between', alignItems: 'center'}}>
-        <Text style={{alignSelf: 'flex-start'}}>{correct}/{total}, remain: {deck.questions.length-total}</Text>
+      <View style={styles.container}>
+        <Text style={styles.reminder}>{total} / {deck.questions.length} </Text>
 
-        <CardView style={{flex:2}} card={deck.questions[index]}/>
+        <CardView style={styles.cardview} card={deck.questions[index]}/>
 
-        <View style={{flex: 2, justifyContent:'center', alignItems: 'center'}}>
-          <Text style={{flex: 1}}>Correct/Incorrect: {deck.questions[ansInd]['answer']}</Text>
+        <View style={{flex: 2, justifyContent:'flex-start', alignItems: 'center'}}>
+          <Text style={{margin:10, fontSize:20}}>T or F: {deck.questions[ansInd]['answer']}</Text>
 
-          <View style={{flex:2}}>
-            <TouchableOpacity onPress={()=>this.handleAnswer(ansInd, true)}><Text>Correct</Text></TouchableOpacity>
-            <TouchableOpacity onPress={()=>this.handleAnswer(ansInd, false)}><Text>Incorrect</Text></TouchableOpacity>
+          <View>
+            <TouchableOpacity
+              style={[styles.subBtn, {backgroundColor:'green'}]}
+              onPress={()=>this.handleAnswer(ansInd, true)}>
+              <Text style={styles.subText}>Correct</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.subBtn, {backgroundColor:'red'}]}
+              onPress={()=>this.handleAnswer(ansInd, false)}>
+              <Text style={styles.subText}>Incorrect</Text></TouchableOpacity>
           </View>
         </View>
 
@@ -87,3 +99,44 @@ class Quiz extends Component{
 
 Quiz = connect(({decks})=>({decks}))(Quiz);
 export default Quiz;
+
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+  header: {
+    fontSize:25,
+    fontWeight: 'bold'
+  },
+  reminder:{
+    margin: 10,
+    alignSelf: 'flex-start',
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
+
+  cardview: {
+    flex: 2,
+    borderWidth: 1,
+    borderRadius: 3
+  },
+
+  subBtn:{
+    margin: 5,
+    backgroundColor:'black',
+    borderWidth:1,
+    borderRadius:3,
+    width:200,
+    height:30,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  subText:{
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 'bold'
+  }
+});

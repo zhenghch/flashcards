@@ -8,8 +8,8 @@ const DeckOverview = (props) => {
 
   return (
     <View style={{justifyContent: 'center', alignItems:'center',  height:100}}>
-      <Text>{deck.title}</Text>
-      <Text>{`${deck.questions.length} cards`}</Text>
+      <Text style={{margin:15, fontSize: 25, fontWeight: 'bold'}}>{deck.title}</Text>
+      <Text style={{fontSize:20, color:'gray'}}>{`${deck.questions.length} cards`}</Text>
     </View>
   );
 };

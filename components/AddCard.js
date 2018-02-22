@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
@@ -44,28 +44,54 @@ class AddCard extends Component{
   render(){
     const { question, answer } = this.state;
     return(
-      <View>
+      <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent:'center'}}>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={styles.textInput}
+          autoGrow={true}
+          multiline={true}
+          placeholder={'input your question'}
           value = {question}
           onChangeText={(value)=>this.setState({question: value})}
           />
 
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={styles.textInput}
+          autoGrow={true}
+          multiline={true}
+          placeholder={'input your answer'}
           value = {answer}
           onChangeText={(value)=>this.setState({answer: value})}
           />
 
-        <TouchableOpacity onPress={this.handleSubmit}>
-          <Text>
+        <TouchableOpacity style={styles.subBtn} onPress={this.handleSubmit}>
+          <Text style={{fontSize:20, color:'white'}}>
             Submit
           </Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     );
   };
 }
 
 AddCard = connect(({decks})=> ({decks}))(AddCard);
 export default AddCard;
+
+const styles = StyleSheet.create({
+  textInput: {
+    margin:10,
+    width:300,
+    borderWidth: 1,
+    borderRadius: 3,
+    fontSize: 20
+  },
+  subBtn:{
+    margin: 10,
+    backgroundColor:'black',
+    borderWidth:1,
+    borderRadius:3,
+    width:100,
+    height:30,
+    alignItems:'center',
+    justifyContent:'center'
+  }
+});

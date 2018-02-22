@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 
@@ -42,23 +42,55 @@ class AddDeck extends React.Component{
 
   render(){
     return(
-      <View>
-        <Text>What is the title of your new deck ?</Text>
+      <KeyboardAvoidingView style={styles.container}>
+        <Text style={styles.header}>What is the title of your new deck ?</Text>
         <TextInput
-          style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+          style={styles.textInput}
           value = {this.state.value}
           onChangeText={(value)=>this.setState({value})}
           />
 
-        <TouchableOpacity onPress={this.handleSubmit}>
-          <Text>
+        <TouchableOpacity style={styles.subBtn} onPress={this.handleSubmit}>
+          <Text style={{color:'white'}}>
             Submit
           </Text>
         </TouchableOpacity>
-      </View>
+      </KeyboardAvoidingView>
     );
   };
 }
 
 AddDeck = connect(({decks}) => ({decks}))(AddDeck);
 export default AddDeck;
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex:1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+  header: {
+    fontSize:25,
+    fontWeight: 'bold'
+  },
+
+  textInput: {
+    margin:20,
+    width:300,
+    borderWidth: 1,
+    borderRadius: 3,
+    fontSize: 20
+  },
+  subBtn:{
+    margin: 10,
+    backgroundColor:'black',
+    borderWidth:1,
+    borderRadius:3,
+    width:100,
+    height:30,
+    alignItems:'center',
+    justifyContent:'center'
+  }
+});

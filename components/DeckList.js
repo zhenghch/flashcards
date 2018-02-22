@@ -17,6 +17,7 @@ class DeckList extends Component {
     return (
       <View >
         <TouchableOpacity
+          style={{borderWidth:0.5, borderColor: 'rgb(200,200,200)', marginLeft:1}}
           onPress={() => this.props.navigation.navigate(
             'DeckOp',
             { deckId: item.key }
@@ -36,7 +37,8 @@ class DeckList extends Component {
         <FlatList
           data={deckList}
           renderItem={this.renderItem}
-          contentContainerStyle={{flex: 1, justifyContent: 'flex-start'}}
+          style={{backgroundColor:'white'}}
+          contentContainerStyle={{flex: 1, justifyContent:'center'}}
           />
       </View>
     );

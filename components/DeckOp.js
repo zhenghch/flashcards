@@ -17,21 +17,26 @@ class DeckOp extends Component {
     const { deckId } = this.props.navigation.state.params;
 
     return(
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, justifyContent: 'space-around', alignItems:'center', backgroundColor: 'white'}}>
         <DeckOverview deckId={deckId}/>
 
-        <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddCard', {deckId})}>
-          <Text>
-            Add card
-          </Text>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            style={{margin: 10, backgroundColor:'white', borderWidth:1, borderRadius:3, width:200, height:50, alignItems:'center', justifyContent:'center'}}
+            onPress={()=>this.props.navigation.navigate('AddCard', {deckId})}>
+            <Text style={{color:'black'}}>
+              Add card
+            </Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={()=>this.props.navigation.navigate('Quiz', {deckId})}>
-          <Text>
-            Start Quiz
-          </Text>
-        </TouchableOpacity>
-
+          <TouchableOpacity
+            style={{margin: 10, backgroundColor:'black', borderWidth:1, borderRadius:3, width:200, height:50, alignItems:'center', justifyContent:'center'}}
+            onPress={()=>this.props.navigation.navigate('Quiz', {deckId})}>
+            <Text style={{color:'white'}}>
+              Start Quiz
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
