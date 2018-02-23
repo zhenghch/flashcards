@@ -52,7 +52,7 @@ class AddDeck extends React.Component{
 
         <TouchableOpacity style={styles.subBtn} onPress={this.handleSubmit}>
           <Text style={{color:'white'}}>
-            Submit
+            Create Deck
           </Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>

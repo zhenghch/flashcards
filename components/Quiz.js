@@ -19,26 +19,23 @@ function precisionRound(number, precision) {
 class Quiz extends Component{
   state = {
     index: 0,
-    correct: 0,
-    total: 0
+    correct: 0
   }
 
   componentDidMount(){
-    this.setState({index: 0, correct:0, incorrect: 0});
+    this.setState({index: 0, correct:0});
   }
 
-  handleAnswer = (ansInd, type) => {
-    const { index, correct, total } = this.state;
+  handleAnswer = (type) => {
+    const { index, correct} = this.state;
 
-    if ((ansInd === index) === type){ // correct answer
+    if (type){ // correct answer
       this.setState({
         correct: correct + 1,
-        total: total + 1,
         index: index + 1
       });
     }else{
       this.setState({
-        total: total + 1,
         index: index+1
       });
     }
@@ -56,16 +53,17 @@ class Quiz extends Component{
   render(){
     const { deckId } = this.props.navigation.state.params;
     const deck = this.props.decks[deckId];
-    const {index, correct, total } = this.state;
+    const {index, correct } = this.state;
+    const total = deck.questions.length;
 
-    if (deck.questions.length <= index){ // finish quiz
+    if (total <= index){ // finish quiz
       return (
         <View style={styles.container}>
           <Text style={styles.header}>Quiz result: {precisionRound(correct/total*100, 1)}% ({correct}/{total})</Text>
 
           <TouchableOpacity
             style={{margin: 10, backgroundColor:'black', borderWidth:1, borderRadius:3, width:200, height:50, alignItems:'center', justifyContent:'center'}}
-            onPress={()=>this.setState({index:0, correct:0, total:0})}>
+            onPress={()=>this.setState({index:0, correct:0})}>
             <Text style={{color:'white'}}>
               Restart Quiz
             </Text>
@@ -81,26 +79,22 @@ class Quiz extends Component{
       );
     }
 
-    const ansInd = getRandomInt(deck.questions.length);
-
     return (
       <View style={styles.container}>
-        <Text style={styles.reminder}>{total} / {deck.questions.length} </Text>
+        <Text style={styles.reminder}>{index} / {total} </Text>
 
         <CardView style={styles.cardview} card={deck.questions[index]}/>
 
         <View style={{flex: 2, justifyContent:'flex-start', alignItems: 'center'}}>
-          <Text style={{margin:10, fontSize:20}}>T or F: {deck.questions[ansInd]['answer']}</Text>
-
           <View>
             <TouchableOpacity
               style={[styles.subBtn, {backgroundColor:'green'}]}
-              onPress={()=>this.handleAnswer(ansInd, true)}>
+              onPress={()=>this.handleAnswer(true)}>
               <Text style={styles.subText}>Correct</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.subBtn, {backgroundColor:'red'}]}
-              onPress={()=>this.handleAnswer(ansInd, false)}>
+              onPress={()=>this.handleAnswer(false)}>
               <Text style={styles.subText}>Incorrect</Text></TouchableOpacity>
           </View>
         </View>
