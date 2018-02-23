@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import CardView from '../components/CardView';
 import { clearLocalNotification, setLocalNotification } from '../utils/helper';
-
-import { AsyncStorage } from 'react-native';
-import { NOTIFICATION_KEY } from '../utils/helper';
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
@@ -64,6 +62,21 @@ class Quiz extends Component{
       return (
         <View style={styles.container}>
           <Text style={styles.header}>Quiz result: {precisionRound(correct/total*100, 1)}% ({correct}/{total})</Text>
+
+          <TouchableOpacity
+            style={{margin: 10, backgroundColor:'black', borderWidth:1, borderRadius:3, width:200, height:50, alignItems:'center', justifyContent:'center'}}
+            onPress={()=>this.setState({index:0, correct:0, total:0})}>
+            <Text style={{color:'white'}}>
+              Restart Quiz
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{margin: 10, backgroundColor:'black', borderWidth:1, borderRadius:3, width:200, height:50, alignItems:'center', justifyContent:'center'}}
+            onPress={() => this.props.navigation.dispatch(NavigationActions.back())}>
+          <Text style={{color:'white'}}>Back to deck</Text>
+        </TouchableOpacity>
+
         </View>
       );
     }

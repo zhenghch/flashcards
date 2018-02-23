@@ -12,13 +12,14 @@ class CardView extends Component{
     const text = question ? card.question : card.answer;
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>{text}</Text>
         <TouchableOpacity
+          style={styles.container}
           onPress={() => this.setState((state)=>({...state, question: !state.question}))}>
+
+          <Text style={styles.header}>{text}</Text>
           <Text style={{margin:10, fontSize:20, color: 'red'}}>{question? 'Answer': 'Question'}</Text>
+
         </TouchableOpacity>
-      </View>
     );
   }
 }
