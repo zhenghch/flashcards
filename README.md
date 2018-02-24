@@ -20,7 +20,7 @@ The app contains following views:
 ### Deck list view
 This view is default view when app init. It lists all existing decks with name of each deck and number of cards within it. 
 - press each deck to navigate to individual deck view
-- slide to the left to reveal delete button (by [eact-native-swipeable](https://github.com/jshanson7/react-native-swipeable))
+- slide to the left to reveal delete button (by [react-native-swipeable](https://github.com/jshanson7/react-native-swipeable))
 
 ### Individual deck view
 In this view one could add Q/A to the deck and also quiz on it.
