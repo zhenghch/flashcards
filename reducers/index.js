@@ -9,6 +9,11 @@ function decks(state={}, action){
       ...state,
       [action.title]: action.deck
     };
+  case Actions.DEL_DECK:
+    return Object.keys(state)
+                 .filter(key => key !== action.title)
+                 .reduce((res, key) => ({...res, [key]: state[key]}), {});
+
   case Actions.ADD_CARD:
     return {
       ...state,

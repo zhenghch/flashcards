@@ -13,6 +13,13 @@ const addDeck = (title, deck) => ({
   deck
 });
 
+// del deck
+const DEL_DECK = 'DEL_DECK';
+const delDeck = (title) => ({
+  type: DEL_DECK,
+  title
+});
+
 // add card
 const ADD_CARD = 'ADD_CARD';
 const addCard = (id, card) => ({
@@ -27,6 +34,9 @@ export default {
 
   ADD_DECK,
   addDeck,
+
+  DEL_DECK,
+  delDeck,
 
   ADD_CARD,
   addCard

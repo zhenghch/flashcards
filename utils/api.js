@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 
 const FLASHCARDS_STORAGE_KEY = 'REACTND_FLASHCARDS:decks';
 
+// dummy decks when app init
 const DUMMY_DECKS = {
   React: {
     title: 'React',
@@ -51,6 +52,19 @@ export function addDeck(title, deck){
   return AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
     [title]: deck
   }));
+}
+
+// del deck
+export function delDeck(title){
+  return AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+    .then(formatDeckResults)
+    .then((decks)=>{
+      const data = Object.keys(decks)
+                         .filter(key => key !== title)
+                         .reduce((res, key) => ({...res, [key]: decks[key]}), {});
+      AsyncStorage.setItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(data));
+    });
+
 }
 
 // add card to existing deck

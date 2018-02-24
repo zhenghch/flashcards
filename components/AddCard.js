@@ -6,6 +6,9 @@ import { NavigationActions } from 'react-navigation';
 import Actions from '../actions';
 import * as CardsAPI from '../utils/api';
 
+/**
+ * @description view to create new question. To submit, both anwser and question should not be empty
+ */
 class AddCard extends Component{
   state = {
     question: '',
@@ -23,11 +26,13 @@ class AddCard extends Component{
     const question = this.state.question.trim();
     const answer = this.state.answer.trim();
 
+    // field check
     if (question === '' || answer === ''){
       alert('Question and answer should not be empty.');
       return;
     }
 
+    // add card
     const card = {question, answer};
     CardsAPI.addCard(deckId, card)
       .then(this.props.dispatch(Actions.addCard(deckId, card)));
@@ -44,11 +49,12 @@ class AddCard extends Component{
   render(){
     const { question, answer } = this.state;
     return(
-      <KeyboardAvoidingView style={{flex: 1, backgroundColor: 'white', alignItems:'center', justifyContent:'center'}}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <TextInput
           style={styles.textInput}
           autoGrow={true}
           multiline={true}
+          maxHeight={30}
           placeholder={'input your question'}
           value = {question}
           onChangeText={(value)=>this.setState({question: value})}
@@ -58,6 +64,7 @@ class AddCard extends Component{
           style={styles.textInput}
           autoGrow={true}
           multiline={true}
+          maxHeight={50}
           placeholder={'input your answer'}
           value = {answer}
           onChangeText={(value)=>this.setState({answer: value})}
@@ -77,6 +84,12 @@ AddCard = connect(({decks})=> ({decks}))(AddCard);
 export default AddCard;
 
 const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor: 'white'
+  },
   textInput: {
     margin:10,
     width:300,

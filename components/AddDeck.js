@@ -6,17 +6,21 @@ import { NavigationActions } from 'react-navigation';
 import Actions from '../actions';
 import * as CardsAPI from '../utils/api';
 
-//
 
+/**
+ * @description create new deck
+ */
 class AddDeck extends React.Component{
   state = {
     value: ''
   }
 
+
   handleSubmit = () => {
     const {decks} = this.props;
     const value = this.state.value.trim();
 
+    // value check, whether empty or re-create exist deck
     if (value === ''){
       alert('Title should not be empty.');
       return;
@@ -27,6 +31,7 @@ class AddDeck extends React.Component{
       return;
     }
 
+    // create new deck
     const deck = {title: value, questions: []};
 
     CardsAPI.addDeck(value, deck)
@@ -36,14 +41,16 @@ class AddDeck extends React.Component{
       value: ''
     });
 
+    // after submitted, back to deck list view
     this.props.navigation.dispatch(NavigationActions.back());
   }
 
 
   render(){
     return(
-      <KeyboardAvoidingView style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Text style={styles.header}>What is the title of your new deck ?</Text>
+        <View style={{height:20}}/>
         <TextInput
           style={styles.textInput}
           value = {this.state.value}
