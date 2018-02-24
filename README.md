@@ -40,3 +40,7 @@ Quiz on the deck.
 This view is used to add deck to the app. New deck should not have same name with existing decks.
 
 ---
+
+## Test on platforms
+- iPhone 7 using Simulator Version 10.0 on macOS 10.12.6
+- iPhone 5s
